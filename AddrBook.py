@@ -88,17 +88,11 @@ class Record:
 
    
     def __str__(self) -> str:
-        try:
-            phones = [obj.value for obj in self.phones]
-        except:
-            phones = ""
-        try:
-            birthday = str(self.birthday.value)
-        except:
-            birthday = ""
-        return (f"Contact name:{self.name.value} \
-phones:{str(phones)} \
-birthday: {str(birthday)}")    
+        all_phones_str = []
+        for tel in self.phones:
+            all_phones_str.append(str(tel))
+        return f" Phones:{str(all_phones_str)} Birthday: {self.birthday}"
+   
 
     
 class AddressBook(UserDict):
@@ -134,18 +128,25 @@ class AddressBook(UserDict):
     def __str__(self) -> str:
         dict = {}
         for k, v in self.items():
-            try:
-                phones = [obj.value for obj in v.phones]
-            except:
-                phones = ""
-            try:
-                birthday = str(v.birthday.value)
-            except:
-                birthday = ""
-            record_as_str = (f"Contact name:{v.name.value} \
-phones:{str(phones)} \
-birthday: {str(birthday)}")
-            dict[k] = record_as_str
-        
+            dict[k] = str(v)
         return str(dict)
 
+if __name__ == "__main__":
+    book = AddressBook()
+    
+    jon = Record("jon")
+    jon.add_phone("1234567890")
+    jon.add_phone("2224567890")
+    jon.add_birthday ("01.01.2023") 
+    book.add_record(jon)
+
+    bob = Record("bob")
+    bob.add_phone("9876543210")
+    bob.add_birthday ("01.02.2023") 
+    book.add_record(bob)
+
+    bobi = Record("bobi")
+    bobi.add_phone("9876543888")
+    bobi.add_birthday ("01.03.2023") 
+    book.add_record(bobi)
+    print(book)
