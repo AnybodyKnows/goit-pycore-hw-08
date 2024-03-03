@@ -9,7 +9,10 @@ def save_data(book, filename="addressbook.pkl"):
 def load_data(filename="addressbook.pkl" ):
     try:
         with open(filename,"+rb") as f:
-            return pickle.load(f)
+            restored_bk = pickle.load(f)
+            cnt = len(restored_bk)
+            print(f"{cnt} contucts in AdressBook loaded")
+            return restored_bk
     except:
         return AddressBook() 
 
