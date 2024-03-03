@@ -1,5 +1,17 @@
 
 from AddrBook import * 
+import pickle
+
+def save_data(book, filename="addressbook.pkl"):
+    with open(filename, "wb") as f:
+        pickle.dump(book, f)
+
+def load_data(filename="addressbook.pkl" ):
+    try:
+        with open(filename,"+rb") as f:
+            return pickle.load(f)
+    except:
+        return AddressBook() 
 
 def input_error(func):
     def inner(*args, **kwargs):
@@ -17,17 +29,13 @@ def input_error(func):
             return f"Error: {e}"
     return inner
 
-book = AddressBook()
-contucts_book = []
-
-
 def parse_input(user_input):
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, *args  
 
 @input_error
-def add_contact(command, *args):
+def add_contact(*args):
     if args[0] in book:
         record = book.find(args[0])
         record.add_phone(args[1])
@@ -62,6 +70,8 @@ def add_birthday(*args):
     record = book.find(args[0])
     record.add_birthday(args[1])
     return record
+
+book = load_data()
     
 def main():
     print("Welcome to the assistant bot!")
@@ -69,6 +79,7 @@ def main():
         user_input = input("Enter a command: ").strip().lower()
         command, *args = parse_input(user_input) 
         if command in ["close", "exit"]:
+            save_data(book)
             print("Good bye!")
             break
         elif command in ["hello"]:
