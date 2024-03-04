@@ -88,7 +88,7 @@ def main():
         elif command in ["hello"]:
             print("Hello how can I help you?")
         elif command in ["add"]:
-            add = add_contact(command, *args)
+            add = add_contact(*args)
             print(add)
 
         elif command in ["change"]:
